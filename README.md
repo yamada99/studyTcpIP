@@ -1,3 +1,6 @@
 # studyTcpIP
 
-TCP/IP勉強会のプログラム
+## TCP/IP勉強会のプログラム
+### rawSocket
+以下のコマンドを実行する。windowsで実行するときは管理者で実行すること
+python rawSocket.py
