@@ -1,12 +1,15 @@
 import socket
+import signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-MYHOST = '192.168.3.50'
+MYHOST = '192.168.24.17'
 
-mySocket = socket.socket(socket.AF_INET, socket.SOCK_RAW)
-file = open('rawSocketLog.txt','w',encoding='UTF-8')
+mySocket = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+file = open('rawSocketLog.txt','x',encoding='UTF-8')
 
 def prepare():
     mySocket.bind((MYHOST, 0))
+    mySocket.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON) # ソケットがネットワークインタフェースを通過するすべてのパケットを受信するために必要な設定
 
 def hexdump(data):
     result = []
@@ -24,7 +27,7 @@ if __name__ == '__main__':
 
     try:
         while True:
-            data = mySocket.recv(65535)
+            data = mySocket.recv(65536)
             hexdump(data)
             print("\n")
             file.write('\n')
